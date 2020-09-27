@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style type="text/css">
+        
+    </style>
+    <script src="res/scripts/jquery-1.10.2.min.js"></script>
+    <script src="res/scripts/jquery.form.js"></script>
+    <script type="text/javascript">
+        //方法1
+        function AjaxUploadfile() {
+            var upload = $("#files").get(0);
+            var files = upload.files;
+            var data = new FormData();
+            for (var i = 0; i < files.length; i++) {
+                data.append("files", files[i]);
+            }
+
+            //此处data的构建也可以换成：var data = new FormData(document.getElementById("myform"));
+
+            $.ajax({
+                type: "POST",
+                url: "/api/upload/uploadfile",
+                contentType: false,
+                processData: false,
+                data: data,
+                success: function (result) {
+                    alert("success");
+                    $.each(result.data.files, function (i, filename) {
+                        $("#filePanel").append('<p>' + filename + '</p>');
+                    });
+                },
+                error: function () {
+                    alert("上传文件错误");
+                }
+            });
+        }
+
+
+        //方法2
+        function AjaxUploadfile2() {
+            $("#myform").ajaxSubmit({
+                success: function (result) {
+                    if (result.isSuccess) {
+                        $.each(result.data.files, function (i, filename) {
+                            $("#filePanel").append('<p>' + filename + '</p>');
+                        });
+                    }
+                    else {
+                        alert(result.message);
+                    }
+                }
+            });
+        }       
+       
+    </script>   
+</head>
+<body>
+    <form id="myform" method="post" action="/api/upload/uploadfile" enctype="multipart/form-data">
+        <input type="file" id="files" name="files" multiple /> <br /><br />
+        <input type="button" value="FormData Upload" onclick="AjaxUploadfile();" /><br /><br />
+        <input type="button" value="ajaxSubmit Upload" onclick="AjaxUploadfile2();" /><br /><br />      
+        <div id="filePanel"></div>
+    </form>
+
+    <script type="text/javascript">
+
+        $(function () {
+
+        });
+
+    </script>
+</body>
+</html>
