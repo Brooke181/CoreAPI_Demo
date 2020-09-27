@@ -9,7 +9,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace CoreApi_Demo.Controllers
 {
-    [ApiExplorerSettings(IgnoreApi = true)]
+    //[ApiExplorerSettings(IgnoreApi = true)]
     [Produces("application/json")]  
     [Route("api/[controller]/[action]")]
     [ApiController]

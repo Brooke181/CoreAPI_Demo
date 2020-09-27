@@ -75,8 +75,11 @@ namespace CoreApi_Demo
                 };
             });
 
+            services.AddHttpClient();//HttpClient注入
+
             services.AddMemoryCache();//缓存中间件
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();//HttpContext注入
 
             services.ConfigureCors();//跨域
 
@@ -199,7 +202,7 @@ namespace CoreApi_Demo
                 context.HttpContext.Response.StatusCode = StatusCodes.Status200OK;
                 await context.HttpContext.Response.WriteAsync(Newtonsoft.Json.JsonConvert.SerializeObject(new
                 {
-                    result = 0,
+                    isSuccess = false,
                     code,
                     message
                 }));
@@ -224,6 +227,13 @@ namespace CoreApi_Demo
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+
+                endpoints.MapGet("/", async context =>
+                {
+                    await context.Response.WriteAsync("Hello ,WelCome");
+                    //context.Response.Redirect("http://t1.abc.com");
+                });
+
             });
         }
     }

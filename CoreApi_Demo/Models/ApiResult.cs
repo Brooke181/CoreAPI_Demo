@@ -9,7 +9,7 @@ namespace CoreApi_Demo.Models
     {
         public bool IsSuccess { get; set; }
         public string Message { get; set; }
-        public string Code { get; set; }
+        public int Code { get; set; }
         public Dictionary<string, object> Data { get; set; } = new Dictionary<string, object>();
     }
 
